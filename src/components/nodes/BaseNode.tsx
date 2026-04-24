@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import { clsx } from 'clsx'
 import { AlertCircle, MoreHorizontal } from 'lucide-react'
 import type { ValidationError } from '../../types/nodes'
+import { useSimulationStore } from '../../store/simulationStore'
 
 interface StatBadge {
   icon: string
@@ -11,6 +12,7 @@ interface StatBadge {
 }
 
 interface BaseNodeProps {
+  nodeId?: string
   selected: boolean
   hasSource?: boolean
   hasTarget?: boolean
@@ -26,6 +28,7 @@ interface BaseNodeProps {
 }
 
 export function BaseNode({
+  nodeId,
   selected,
   hasSource = true,
   hasTarget = true,
@@ -39,13 +42,19 @@ export function BaseNode({
   stats,
 }: BaseNodeProps) {
   const hasErrors = errors.length > 0
+  const activeNodeId = useSimulationStore((s) => s.activeNodeId)
+  const isActive = nodeId !== undefined && activeNodeId === nodeId
 
   return (
     <div
       className={clsx(
-        'rounded-xl bg-white shadow-md border-2 min-w-[210px] max-w-[250px] transition-all duration-150',
-        selected ? 'shadow-xl ring-2 ring-offset-1 ring-blue-400' : 'shadow-sm hover:shadow-md',
-        hasErrors ? 'border-red-400' : borderColor,
+        'rounded-xl bg-white border-2 min-w-[210px] max-w-[250px] transition-all duration-200',
+        isActive
+          ? 'shadow-2xl ring-4 ring-offset-2 ring-orange-400 scale-105 border-orange-400'
+          : selected
+          ? 'shadow-xl ring-2 ring-offset-1 ring-blue-400 shadow-md'
+          : 'shadow-sm hover:shadow-md',
+        !isActive && (hasErrors ? 'border-red-400' : borderColor),
       )}
     >
       {hasTarget && (
@@ -110,6 +119,7 @@ export function BaseNode({
 
 /* Pill-shaped connector node — matches "Initialize Data", "Execute Triggered" style in reference */
 interface PillNodeProps {
+  nodeId?: string
   selected: boolean
   label: string
   color: string
@@ -117,13 +127,18 @@ interface PillNodeProps {
   hasTarget?: boolean
 }
 
-export function PillNode({ selected, label, color, hasSource = true, hasTarget = true }: PillNodeProps) {
+export function PillNode({ nodeId, selected, label, color, hasSource = true, hasTarget = true }: PillNodeProps) {
+  const activeNodeId = useSimulationStore((s) => s.activeNodeId)
+  const isActive = nodeId !== undefined && activeNodeId === nodeId
+
   return (
     <div
       className={clsx(
-        'px-4 py-1.5 rounded-full border-2 text-xs font-semibold shadow-sm transition-all',
+        'px-4 py-1.5 rounded-full border-2 text-xs font-semibold shadow-sm transition-all duration-200',
         color,
-        selected && 'ring-2 ring-offset-1 ring-blue-400 shadow-md'
+        isActive
+          ? 'ring-4 ring-offset-2 ring-orange-400 shadow-xl scale-110 !border-orange-400'
+          : selected && 'ring-2 ring-offset-1 ring-blue-400 shadow-md'
       )}
     >
       {hasTarget && (

@@ -13,6 +13,7 @@ export function TaskNode({ data, selected, id }: NodeProps<WorkflowNode>) {
 
   return (
     <BaseNode
+      nodeId={id}
       selected={selected}
       borderColor="border-slate-200"
       headerBg="bg-blue-500"

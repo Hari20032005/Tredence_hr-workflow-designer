@@ -14,6 +14,7 @@ export function AutomatedStepNode({ data, selected, id }: NodeProps<WorkflowNode
 
   return (
     <BaseNode
+      nodeId={id}
       selected={selected}
       borderColor="border-slate-200"
       headerBg="bg-purple-500"

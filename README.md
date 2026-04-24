@@ -6,19 +6,40 @@ A production-quality HR Workflow Designer built for the Tredence Studio Full Sta
 
 ## Quick Start
 
+### Frontend only (MSW mock API — no backend needed)
 ```bash
 npm install
 npm run dev
 # Opens at http://localhost:5173
 ```
 
+### With FastAPI backend (full stack mode)
 ```bash
-npm run build   # Production build
+# Terminal 1 — Python backend
+pip install -r backend/requirements.txt
+npm run backend           # uvicorn on :8000, auto-reload
+
+# Terminal 2 — React frontend
+npm run dev               # Vite proxies /api → FastAPI; MSW = fallback
+```
+
+### Run tests
+```bash
+npm test                  # 8 unit tests for graph validation logic
+```
+
+```bash
+npm run build             # Production build (TypeScript strict, zero errors)
 ```
 
 ---
 
 ## Features
+
+### Beyond the case study
+- **FastAPI Python backend** — real async API with Pydantic v2 models, topological sort, CORS, OpenAPI docs at `/docs`
+- **Canvas-synced simulation** — executing nodes glow orange on the canvas in real-time as simulation steps progress
+- **8 passing unit tests** — Vitest tests covering all graph validation rules (cycles, isolation, missing nodes, required fields)
 
 ### Core (All Required)
 - **Drag-and-Drop Canvas** — React Flow canvas with dot-grid background and smooth edge connections
@@ -50,7 +71,8 @@ npm run build   # Production build
 | State | Zustand |
 | Forms | React Hook Form |
 | Styling | Tailwind CSS v4 |
-| Mock API | MSW (Mock Service Worker) |
+| Backend | FastAPI + Python (Pydantic v2, async) |
+| Mock API | MSW (Mock Service Worker — fallback) |
 | Graph Layout | Dagre |
 | Icons | Lucide React |
 

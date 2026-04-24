@@ -12,13 +12,12 @@ export function useSimulation() {
     const errors = validateWorkflow(nodes, edges)
     const hardErrors = errors.filter((e) => e.severity === 'error')
 
-    sim.setErrors(errors)
     sim.reset()
+    sim.setErrors(errors)
     sim.open()
 
     if (hardErrors.length > 0) {
       sim.setStatus('error')
-      sim.setErrors(errors)
       return
     }
 
@@ -33,16 +32,19 @@ export function useSimulation() {
       const result = await simulate(request)
       sim.setSteps(result.steps)
       sim.setTotalDuration(result.totalDurationMs)
-
-      // Animate steps appearing one by one
       sim.setVisibleSteps([])
+
+      // Animate steps one-by-one AND highlight the active node on canvas simultaneously
       for (let i = 0; i < result.steps.length; i++) {
-        await new Promise((r) => setTimeout(r, 400))
+        sim.setActiveNodeId(result.steps[i].nodeId)
+        await new Promise((r) => setTimeout(r, 450))
         sim.setVisibleSteps(result.steps.slice(0, i + 1))
       }
 
+      sim.setActiveNodeId(null)
       sim.setStatus(result.success ? 'success' : 'error')
     } catch (e) {
+      sim.setActiveNodeId(null)
       sim.setStatus('error')
       sim.setErrors([{ message: String(e), severity: 'error' }])
     }

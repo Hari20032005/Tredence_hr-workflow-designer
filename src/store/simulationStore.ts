@@ -11,6 +11,7 @@ interface SimulationState {
   visibleSteps: ExecutionStep[]
   errors: ValidationError[]
   totalDurationMs: number
+  activeNodeId: string | null  // highlights node on canvas during simulation
 
   open: () => void
   close: () => void
@@ -19,6 +20,7 @@ interface SimulationState {
   setVisibleSteps: (steps: ExecutionStep[]) => void
   setErrors: (errors: ValidationError[]) => void
   setTotalDuration: (ms: number) => void
+  setActiveNodeId: (id: string | null) => void
   reset: () => void
 }
 
@@ -29,6 +31,7 @@ export const useSimulationStore = create<SimulationState>((set) => ({
   visibleSteps: [],
   errors: [],
   totalDurationMs: 0,
+  activeNodeId: null,
 
   open: () => set({ isOpen: true }),
   close: () => set({ isOpen: false }),
@@ -37,5 +40,6 @@ export const useSimulationStore = create<SimulationState>((set) => ({
   setVisibleSteps: (visibleSteps) => set({ visibleSteps }),
   setErrors: (errors) => set({ errors }),
   setTotalDuration: (totalDurationMs) => set({ totalDurationMs }),
-  reset: () => set({ status: 'idle', steps: [], visibleSteps: [], errors: [], totalDurationMs: 0 }),
+  setActiveNodeId: (activeNodeId) => set({ activeNodeId }),
+  reset: () => set({ status: 'idle', steps: [], visibleSteps: [], errors: [], totalDurationMs: 0, activeNodeId: null }),
 }))

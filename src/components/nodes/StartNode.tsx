@@ -1,5 +1,4 @@
 import type { NodeProps } from '@xyflow/react'
-import { Play } from 'lucide-react'
 import { PillNode } from './BaseNode'
 import type { WorkflowNode } from '../../types/nodes'
 import { useWorkflowStore } from '../../store/workflowStore'
@@ -14,6 +13,7 @@ export function StartNode({ data, selected, id }: NodeProps<WorkflowNode>) {
   return (
     <div className="relative">
       <PillNode
+        nodeId={id}
         selected={selected}
         label={d.title || 'Start'}
         hasTarget={false}
