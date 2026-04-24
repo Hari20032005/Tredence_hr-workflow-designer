@@ -1,20 +1,16 @@
 import type { NodeProps } from '@xyflow/react'
-import { Flag } from 'lucide-react'
-import { BaseNode } from './BaseNode'
+import { PillNode } from './BaseNode'
 import type { WorkflowNode, EndNodeData } from '../../types/nodes'
 
 export function EndNode({ data, selected }: NodeProps<WorkflowNode>) {
   const d = data as EndNodeData
-
   return (
-    <BaseNode
+    <PillNode
       selected={selected}
+      label={d.endMessage?.slice(0, 20) || 'End'}
       hasSource={false}
-      borderColor="border-rose-500"
-      headerBg="bg-rose-500"
-      icon={<Flag size={14} />}
-      title="End"
-      subtitle={d.endMessage || 'Workflow complete'}
+      hasTarget={true}
+      color="border-rose-400 bg-rose-50 text-rose-700"
     />
   )
 }

@@ -84,8 +84,19 @@ export const useWorkflowStore = create<WorkflowState>((set, get) => ({
 
   onConnect: (connection) => {
     const prev = snapshot(get())
+    // Color edges by target node type to match the reference UI's colored flow paths
+    const edgeColors: Record<string, string> = {
+      task: '#3b82f6', approval: '#f59e0b', automatedStep: '#a855f7', end: '#f43f5e', start: '#10b981',
+    }
+    const targetNode = get().nodes.find((n) => n.id === connection.target)
+    const strokeColor = edgeColors[targetNode?.data?.type ?? ''] ?? '#3b82f6'
     set((s) => ({
-      edges: addEdge({ ...connection, animated: false, style: { stroke: '#94a3b8', strokeWidth: 2 } }, s.edges) as WorkflowEdge[],
+      edges: addEdge({
+        ...connection,
+        animated: false,
+        type: 'smoothstep',
+        style: { stroke: strokeColor, strokeWidth: 2 },
+      }, s.edges) as WorkflowEdge[],
       past: [...s.past.slice(-MAX_HISTORY), prev],
       future: [],
     }))

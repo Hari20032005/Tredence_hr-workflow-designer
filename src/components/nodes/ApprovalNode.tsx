@@ -14,19 +14,23 @@ export function ApprovalNode({ data, selected, id }: NodeProps<WorkflowNode>) {
   return (
     <BaseNode
       selected={selected}
-      borderColor="border-amber-500"
+      borderColor="border-slate-200"
       headerBg="bg-amber-500"
-      icon={<ShieldCheck size={14} />}
+      icon={<ShieldCheck size={13} />}
       title={d.title || 'Approval'}
+      subtitle="Approval / Review step"
       errors={myErrors}
+      stats={[
+        { icon: '⚙', value: 1, color: 'border-slate-200 text-slate-500 bg-slate-50' },
+        { icon: '🛡', value: d.approverRole ? 1 : 0, color: 'border-amber-200 text-amber-600 bg-amber-50' },
+        { icon: '✓', value: d.autoApproveThreshold > 0 ? 1 : 0, color: 'border-emerald-200 text-emerald-600 bg-emerald-50' },
+        { icon: '⚡', value: d.autoApproveThreshold, color: 'border-purple-200 text-purple-600 bg-purple-50' },
+      ]}
     >
       {d.approverRole && (
-        <span className="inline-flex items-center px-1.5 py-0.5 rounded bg-amber-50 text-amber-700 text-[10px]">
+        <span className="inline-flex items-center px-1.5 py-0.5 rounded-full bg-amber-50 text-amber-700 text-[10px] border border-amber-100">
           🛡 {d.approverRole}
         </span>
-      )}
-      {d.autoApproveThreshold > 0 && (
-        <p className="text-slate-400 text-[10px]">Auto-approve at {d.autoApproveThreshold}%</p>
       )}
     </BaseNode>
   )

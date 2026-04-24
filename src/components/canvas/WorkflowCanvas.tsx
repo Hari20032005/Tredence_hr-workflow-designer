@@ -85,10 +85,12 @@ export function WorkflowCanvas() {
         fitView
         fitViewOptions={{ padding: 0.3 }}
         defaultEdgeOptions={{
-          style: { stroke: '#94a3b8', strokeWidth: 2 },
+          style: { stroke: '#3b82f6', strokeWidth: 2 },
           animated: false,
+          type: 'smoothstep',
         }}
         connectionLineStyle={{ stroke: '#6366f1', strokeWidth: 2, strokeDasharray: '5,5' }}
+        connectionLineType={'smoothstep' as never}
       >
         <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#e2e8f0" />
         <Controls className="!border-slate-200 !bg-white !shadow-md" />
