@@ -114,7 +114,8 @@ export function NodeFormPanel() {
               <X size={14} />
             </button>
           </div>
-          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+          {/* key forces form remount when switching between nodes of the same type */}
+          <div key={selectedNode.id} className="flex-1 overflow-y-auto p-4 space-y-4">
             {selectedNode.data.type === 'start' && <StartNodeForm nodeId={selectedNode.id} data={selectedNode.data as StartNodeData} />}
             {selectedNode.data.type === 'task' && <TaskNodeForm nodeId={selectedNode.id} data={selectedNode.data as TaskNodeData} />}
             {selectedNode.data.type === 'approval' && <ApprovalNodeForm nodeId={selectedNode.id} data={selectedNode.data as ApprovalNodeData} />}

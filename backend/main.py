@@ -170,10 +170,12 @@ async def simulate_workflow(body: SimulateRequest):
         elapsed += duration_ms
         ts = start_time.timestamp() * 1000 + elapsed
 
+        NODE_LABELS = {"start": "Start", "task": "Task", "approval": "Approval", "automatedStep": "Automated Step", "end": "End"}
+        node_title = node.data.get("title") or node.data.get("endMessage", "")[:20] or NODE_LABELS.get(node.type, node.type)
         steps.append(ExecutionStep(
             nodeId=node_id,
             nodeType=node.type,
-            nodeTitle=node.data.get("title", node.type),
+            nodeTitle=node_title,
             status="success",
             message=build_step_message(node),
             timestamp=datetime.fromtimestamp(ts / 1000).isoformat(),

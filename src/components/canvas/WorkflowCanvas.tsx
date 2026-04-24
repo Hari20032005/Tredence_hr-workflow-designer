@@ -3,6 +3,7 @@ import {
   ReactFlow,
   Background,
   BackgroundVariant,
+  ConnectionLineType,
   Controls,
   MiniMap,
   useReactFlow,
@@ -90,7 +91,7 @@ export function WorkflowCanvas() {
           type: 'smoothstep',
         }}
         connectionLineStyle={{ stroke: '#6366f1', strokeWidth: 2, strokeDasharray: '5,5' }}
-        connectionLineType={'smoothstep' as never}
+        connectionLineType={ConnectionLineType.SmoothStep}
       >
         <Background variant={BackgroundVariant.Dots} gap={20} size={1} color="#e2e8f0" />
         <Controls className="!border-slate-200 !bg-white !shadow-md" />
